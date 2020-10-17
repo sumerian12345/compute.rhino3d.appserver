@@ -36,6 +36,7 @@ app.use('/example', express.static(__dirname + '/example'))
 app.use('/', require('./routes/index'))
 app.use('/definition', require('./routes/definition'))
 app.use('/solve', require('./routes/solve'))
+app.use('/template', require('./routes/template'))
 
 // ref: https://github.com/expressjs/express/issues/3589
 // remove line when express@^4.17

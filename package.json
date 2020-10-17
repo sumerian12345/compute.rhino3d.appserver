@@ -52,6 +52,7 @@
     "md5-file": "5.0.0",
     "memjs": "^1.2.2",
     "morgan": "~1.9.1",
+    "mustache": "^4.0.1",
     "node-cache": "^5.1.1",
     "node-fetch": "^2.6.0",
     "rhino3dm": "0.13.0",
