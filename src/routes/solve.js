@@ -137,7 +137,7 @@ function commonSolve (req, res, next){
         
       // Throw error if response not ok
       if(!response.ok) {
-        throw new Error(response.statusText)
+        throw new Error(`Compute returned ${response.status} ${response.statusText}`)
       } else {
         computeServerTiming = response.headers
         return response.text()
