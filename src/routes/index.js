@@ -32,7 +32,9 @@ router.get('/:name', async function(req, res, next) {
     res.status(500).json({ message: error.message })
   }
 
-  res.json(data)
+  // res.json(data)
+  res.header("Content-Type",'application/json');
+  res.send(JSON.stringify(data, null, 4));
 })
 
 module.exports = router
