@@ -41,11 +41,14 @@
                 {{#inputs}}
                 <div>
                   <label for="{{id}}">{{name}}</label>
+                  {{#number}}
+                  <input type="number" id="{{id}}" value="{{value}}">
+                  {{/number}}
                   {{#range}}
                   <input type="range" id="{{id}}" min="{{range.min}}" max="{{range.max}}" value="{{range.value}}" step="{{range.step}}">
                   {{/range}}
                   {{#bool}}
-                  <input type="checkbox" id="{{id}}">
+                  <input type="checkbox" id="{{id}}" {{#value}}checked{{/value}}>
                   {{/bool}}
                 </div>
                 {{/inputs}}
@@ -63,13 +66,22 @@ import { OrbitControls } from 'https://unpkg.com/three@0.121.1/examples/jsm/cont
 let inputs = {}
 
 for (const input of document.getElementsByTagName('input')) {
-  if (input.type === 'range') {
-    inputs[input.id] = input.valueAsNumber
-    input.onmouseup = onSliderChange
-    input.ontouchend = onSliderChange
-  } else if (input.type === 'checkbox') {
-    inputs['input.id'] = input.checked
-    input.onclick = onSliderChange
+  switch (input.type) {
+    case 'number':
+      inputs[input.id] = input.valueAsNumber
+      input.onchange = onSliderChange
+      break
+    case 'range':
+      inputs[input.id] = input.valueAsNumber
+      input.onmouseup = onSliderChange
+      input.ontouchend = onSliderChange
+      break
+    case 'checkbox':
+      inputs[input.id] = input.checked
+      input.onclick = onSliderChange
+      break
+    default:
+      break
   }
 }
 
@@ -77,8 +89,6 @@ let data = {
   definition: '{{name}}',
   inputs: inputs
 }
-
-console.log(inputs)
 
 let _threeMesh, _threeMaterial, rhino
 
@@ -114,8 +124,13 @@ async function compute() {
     document.getElementById('loader').style.display = 'none'
 
     // get mesh
-    let data = JSON.parse(responseJson.values[0].InnerTree['{ 0; }'][0].data)
-    let mesh = rhino.CommonObject.decode(data)
+    let item = responseJson.values[0].InnerTree['{ 0; }'][0]
+    let mesh
+    if (item.type === 'System.String') {
+      mesh = rhino.DracoCompression.decompressBase64String(JSON.parse(item.data))
+    } else if (item.type === 'Rhino.Geometry.Mesh') {
+      mesh = rhino.CommonObject.decode(JSON.parse(item.data))
+    }
 
     mesh.scale(0.1)
 
@@ -147,11 +162,19 @@ function onSliderChange () {
   let inputs = {}
 
   for (const input of document.getElementsByTagName('input')) {
-    if (input.type === 'range') {
+    switch (input.type) {
+    case 'number':
       inputs[input.id] = input.valueAsNumber
-    } else if (input.type === 'checkbox') {
-      inputs['input.id'] = input.checked
-    }
+      break
+    case 'range':
+      inputs[input.id] = input.valueAsNumber
+      break
+    case 'checkbox':
+      inputs[input.id] = input.checked
+      break
+    default:
+      break
+  }
   }
   
   data.inputs = inputs

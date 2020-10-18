@@ -25,8 +25,8 @@ async function getParams(definition, baseurl) {
 
   const result = await response.json()
 
-  let inputs = result.Inputs === undefined ? result.InputNames : result.Inputs
-  let outputs = result.Outputs === undefined ? result.OutputNames: result.Outputs
+  let inputs = result.inputs === undefined ? result.inputNames : result.inputs
+  let outputs = result.outputs === undefined ? result.outputNames: result.outputs
 
   data.inputs = inputs
   data.outputs = outputs

@@ -25,18 +25,15 @@ router.get('/:name', async (req, res, next) => {
   }
   view.inputs = []
   for (const input of data.inputs) {
-    const name = input.Name.split(':')[1]
+    const name = input.name
     const id = name
-    switch (input.ParamType) {
+    switch (input.paramType) {
       case 'Integer':
         view.inputs.push({
           name: name,
           id: id,
-          range: {
-            min: 3,
-            max: 4,
-            value: 3,
-            step: 1
+          number: {
+            value: input.integer.value
           }
         })
         break;
@@ -44,11 +41,8 @@ router.get('/:name', async (req, res, next) => {
         view.inputs.push({
           name: name,
           id: id,
-          range: {
-            min: 3,
-            max: 4,
-            value: 3,
-            step: 1
+          number: {
+            value: input.number.value
           }
         })
         break
@@ -57,9 +51,22 @@ router.get('/:name', async (req, res, next) => {
           name: name,
           id: id,
           bool: {
-            value: false
+            value: input.boolean.value
           }
         })
+        break
+      case 'Slider':
+        view.inputs.push({
+          name: name,
+          id: id,
+          range: {
+            min: input.range.min,
+            max: input.range.max,
+            value: input.range.value,
+            step: 1
+          }
+        })
+        break
       default:
         break;
     }
