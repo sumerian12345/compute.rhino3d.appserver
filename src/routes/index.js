@@ -14,6 +14,8 @@ router.get('/', function(req, res, next) {
   res.send(JSON.stringify(definitions))
 })
 
+router.get('/favicon.ico', (req, res) => res.status(404).send())
+
 // Return information related to a specific definition
 router.get('/:name', async function(req, res, next) {
   const definition = req.app.get('definitions').find(o => o.name === req.params.name)
