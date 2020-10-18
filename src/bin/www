@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const definitions = require('../registerDefinitions.js')
+const registerDefinitions = require('../registerDefinitions.js')
 const throng = require('throng')
 
 const WORKERS = process.env.WEB_CONCURRENCY || 1
@@ -17,6 +17,8 @@ function start(id){
  */
 
   console.log(`Started worker ${ id }`)
+
+  const definitions = registerDefinitions()
 
   var app = require('../app')
   app.set('definitions', definitions)
