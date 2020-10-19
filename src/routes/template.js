@@ -17,6 +17,10 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
+// pre-parse template
+const template = fs.readFileSync(path.join(__dirname, '..', 'templates', 'basic.mustache')).toString()
+Mustache.parse(template)
+
 router.get('/', (req, res) => {
   // moved to static example files
   res.redirect('/example/upload')
@@ -102,11 +106,7 @@ router.get('/:name', async (req, res, next) => {
     }
   }
 
-  const mst = path.join(__dirname, '..', 'templates', 'basic.mustache')
-  const template = fs.readFileSync(mst)
-  const content = Mustache.render(template.toString(), view)
-
-  res.send(content)
+  res.send(Mustache.render(template, view))
 })
 
 module.exports = router
