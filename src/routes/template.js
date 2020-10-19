@@ -18,8 +18,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 router.get('/', (req, res) => {
-  var options = {root: __dirname}
-  res.sendFile('upload.html', options)
+  // moved to static example files
+  res.redirect('/example/upload')
 })
 
 router.post('/upload', upload.single('file'), (req, res) => {
