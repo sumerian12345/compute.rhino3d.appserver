@@ -113,15 +113,18 @@ div#textnode {
         'body': data,
         // 'headers': { 'Content-Type': 'application/octet-stream' }
       }
-  
+      let url
       try {
         const response = await fetch('/template/upload', request)
+        const data = await response.json()
+        url = data.url
       } catch (error) {
         console.log(error)
         return
       }
       console.log(`${file.name} uploaded!`)
-      window.location.href = '/template/' + file.name
+      console.log(url)
+      window.location.href = url
     }
   </script>
 </body>
