@@ -1,4 +1,5 @@
 const compute = require('compute-rhino3d')
+const camelcaseKeys = require('camelcase-keys')
 
 compute.url = process.env.RHINO_COMPUTE_URL
 compute.apiKey = process.env.RHINO_COMPUTE_KEY
@@ -23,10 +24,13 @@ async function getParams(definition, baseurl) {
     throw new Error(response.statusText)
   }
 
-  const result = await response.json()
+  let result = await response.json()
 
-  let inputs = result.inputs === undefined ? result.inputNames : result.inputs
-  let outputs = result.outputs === undefined ? result.outputNames: result.outputs
+  // json returned by /io is PascalCase and looks weird in javascript
+  result = camelcaseKeys(result, {deep: true})
+
+  const inputs = result.inputs === undefined ? result.inputNames : result.inputs
+  const outputs = result.outputs === undefined ? result.outputNames: result.outputs
 
   data.inputs = inputs
   data.outputs = outputs

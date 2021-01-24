@@ -59,7 +59,7 @@ router.get('/:name', async (req, res, next) => {
   }
   view.inputs = []
   for (const input of data.inputs) {
-    const name = input.name
+    const name = input.name.replace(/^RH_IN:/, '')
     const id = name
     switch (input.paramType) {
       case 'Integer':

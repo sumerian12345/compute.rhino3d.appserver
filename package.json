@@ -43,6 +43,7 @@
     "start-args": "node ./src/bin/www --computeUrl http://localhost:8081/"
   },
   "dependencies": {
+    "camelcase-keys": "^6.2.2",
     "compression": "1.7.4",
     "compute-rhino3d": "^0.12.0",
     "cors": "2.8.5",
