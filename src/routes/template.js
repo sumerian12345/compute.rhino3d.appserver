@@ -67,7 +67,7 @@ router.get('/:name', async (req, res, next) => {
           name: name,
           id: id,
           number: {
-            value: input.integer.value
+            value: input.default
           }
         })
         break;
@@ -76,7 +76,7 @@ router.get('/:name', async (req, res, next) => {
           name: name,
           id: id,
           number: {
-            value: input.number.value
+            value: input.default
           }
         })
         break
@@ -85,7 +85,7 @@ router.get('/:name', async (req, res, next) => {
           name: name,
           id: id,
           bool: {
-            value: input.boolean.value
+            value: input.default
           }
         })
         break
@@ -94,9 +94,9 @@ router.get('/:name', async (req, res, next) => {
           name: name,
           id: id,
           range: {
-            min: input.range.min,
-            max: input.range.max,
-            value: input.range.value,
+            min: input.minimum,
+            max: input.maximum,
+            value: input.default,
             step: 1
           }
         })
