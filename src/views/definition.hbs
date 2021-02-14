@@ -8,6 +8,8 @@
             body {
                 margin: 0;
                 font-family: Arial, Helvetica, sans-serif;
+                background-color: black;
+                color: plum;
             }
             canvas { width: 100%; height: 100%; }
             input[type=range] { width: 100%; }
@@ -136,7 +138,7 @@ function init() {
     camera.position.set(1, -1, 1) // like perspective view
 
     // very light grey for background, like rhino
-    scene.background = new THREE.Color('whitesmoke')
+    scene.background = new THREE.Color(0x000000)
 
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -148,8 +150,14 @@ function init() {
 
     // add a directional light
     const directionalLight = new THREE.DirectionalLight( 0xffffff )
-    directionalLight.intensity = 2
+    directionalLight.intensity = 1
+    directionalLight.position.set (0,1,0)
     scene.add( directionalLight )
+
+    const directionalLight2 = new THREE.DirectionalLight( 0xE50914 )
+    directionalLight2.intensity = 2
+    directionalLight2.position.set (1,0,0)
+    scene.add( directionalLight2 )
 
     const ambientLight = new THREE.AmbientLight()
     scene.add( ambientLight )
@@ -234,13 +242,20 @@ function collectResults(responseJson) {
     loader.parse( buffer, function ( object ) 
     {
         // debug 
-        /*
+        
         object.traverse(child => {
+          if (child.isMesh) {
+            child.material = new THREE.MeshNormalMaterial()
+            child.material.opacity = 0.8
+            child.material.transparent = true
+          }
+        }, false)
+        
+       /* object.traverse(child => {
           if (child.material !== undefined)
             child.material = new THREE.MeshNormalMaterial()
         }, false)
         */
-
         // add object graph from rhino model to three.js scene
         scene.add( object )
 
